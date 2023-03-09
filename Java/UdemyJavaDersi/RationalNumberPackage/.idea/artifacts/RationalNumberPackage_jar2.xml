@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RationalNumberPackage:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/RationalNumberPackage_jar2</output-path>
+    <root id="archive" name="RationalNumberPackage.jar">
+      <element id="module-output" name="RationalNumberPackage" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/RationalNumberPackage_jar/RationalNumberPackage.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

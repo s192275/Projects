@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CVMaker:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CVMaker_jar</output-path>
+    <root id="archive" name="CVMaker.jar">
+      <element id="module-output" name="CVMaker" />
+    </root>
+  </artifact>
+</component>
