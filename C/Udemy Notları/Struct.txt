@@ -1,0 +1,455 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct Ogrenci{
+	char isim[20];
+	char soyisim[20];
+	float ortalama;
+};//veri tipi tanımını yaptım.
+
+int main(){
+	
+	
+	//int x;//değişken oluşturma.(VERİ TİPİ: ınt, DEĞİŞKEN İSMİ: x)
+    struct Ogrenci ogr1={"Ogun","Birinci",3.74};//değişken oluşturma( VERİ TİPİ: STRUCT Ogrenci, DEĞİŞKEN İSMİ: ogr1)
+	struct Ogrenci ogr2;
+	
+	strcpy(ogr2.isim,"Duygu");//char cinsinden olduğu için atamalar eşitlik ile yapılamaz.
+	strcpy(ogr2.soyisim,"Keydal");
+	ogr2.ortalama=3.70;//eşitlik operatörü ile atadık.
+	
+	printf("Ogr1 Degiskeninin ismi:%s\n",ogr1.isim);//degerlere erisim sağladım  ( . operatörü ile erişim sağladım)
+	printf("Ogr1 Degiskeninin soyismi:%s\n",ogr1.soyisim);
+	printf("Ogr1 Degiskeninin ortalamasi:%.2f\n",ogr1.ortalama);
+	
+	printf("\nOgr2 Degiskeninin ismi:%s\n",ogr2.isim);//degerlere erisim sağladım  ( . operatörü ile erişim sağladım)
+	printf("Ogr2 Degiskeninin soyismi:%s\n",ogr2.soyisim);
+	printf("Ogr2 Degiskeninin ortalamasi:%.2f\n",ogr2.ortalama);*/
+	
+	
+	//DİZİLERLE BİRLİKTE KULLANIM
+	struct Ogrenci ogrenciler[3];//direkt atama yapabilirsiniz
+	int i;
+	for(i=0;i<3;i++){//BILGI ALMA KISMI
+		puts("Lutfen ogrencinin adini giriniz:");
+		scanf("%s",&ogrenciler[i].isim);
+		puts("Lutfen ogrencinin soyadini giriniz:");
+		scanf("%s",&ogrenciler[i].soyisim);
+		puts("Lutfen ogrencinin ortalamasini giriniz:");
+		scanf("%f",&ogrenciler[i].ortalama);
+	}
+	
+	for(i=0;i<3;i++){//BILGI YAZDIRMA KISMI.
+		printf("%d. ogrencinin adi-soyadi:%s %s ve ortalamasi:%.2f\n",i+1,ogrenciler[i].isim,ogrenciler[i].soyisim,ogrenciler[i].ortalama);
+	}
+	
+	
+	//İŞARETÇİLERLE BİRLİKTE KULLANIM
+	
+	struct Ogrenci ogr;//degisken tanimlamasi yaptik.
+	struct Ogrenci *ogrPtr;//isaretci degiskeni tanimlamasi yaptik
+	struct Ogrenci *ogrPtr2;
+	ogrPtr=&ogr;//ogrPtr ogr'nin adresini tutuyor,onu işaret ediyor.
+	ogrPtr2=&ogr;
+	
+	
+	strcpy((*ogrPtr).isim,"Ogun");
+	strcpy((*ogrPtr).soyisim,"Birinci");
+	(*ogrPtr).ortalama=3.74;
+	
+	strcpy(ogrPtr->isim,"Ogun");
+	strcpy(ogrPtr->soyisim,"Birinci");
+	ogrPtr->ortalama=3.74;
+	
+	strcpy(ogrPtr2->isim,"Duygu");
+	strcpy(ogrPtr2->soyisim,"Keydal");
+	ogrPtr2->ortalama=3.68;
+	/*
+	                   isim soyisim ortalama
+		ogrPtr->>>>ogr	  Duygu Keydal 3.68
+		ogrPtr2->>>ogr    Duygu Keydal 3.68
+	*/
+	
+
+	printf("Adresi:%#X\n",ogrPtr);
+	printf("Ogrencinin ismi:%s\n",(*ogrPtr).isim);
+	printf("Ogrencinin soy ismi:%s\n",(*ogrPtr).soyisim);
+	printf("Ogrencinin ortalamasi:%.2f\n",(*ogrPtr).ortalama);
+	
+
+	
+	//DİNAMİK BELLEK YÖNETİMİYLE BİRLİKTE KULLANIM
+	int elemanSayisi,i;
+	printf("Lutfen ogrenci sayisini giriniz:");
+	scanf("%d",&elemanSayisi);
+	
+	struct Ogrenci *ogrPtr;// malloctan dönen başlangıç adresini tutar.
+	ogrPtr=(struct Ogrenci*)malloc(sizeof(struct Ogrenci)*elemanSayisi);//dinamik bir şekilde değişken oluşturdum
+	//dizinin baslangic adresini tutacak.
+	
+	
+	for(i=0;i<elemanSayisi;i++){
+		puts("Lutfen ogrencinin adini giriniz:");
+		scanf("%s",&ogrPtr[i].isim);
+		puts("Lutfen ogrencinin soyadini giriniz:");
+		scanf("%s",&ogrPtr[i].soyisim);
+		puts("Lutfen ogrencinin ortalamasini giriniz:");
+		scanf("%f",&ogrPtr[i].ortalama);		
+	}
+	for(i=0;i<elemanSayisi;i++){
+		printf("Ogrencinin ismi:%s\n",ogrPtr[i].isim);
+		printf("Ogrencinin soy ismi:%s\n",ogrPtr[i].soyisim);
+		printf("Ogrencinin ortalamasi:%.2f\n",ogrPtr[i].ortalama);
+	}
+
+	free(ogrPtr);//serbest bırakıyoruz, geri veriyoruz.
+
+	return 0;
+}
+
+//FONKSİYONLARLA BİRLİKTE KULLANIM
+typedef struct{
+	char isim[20];//20 byte kaplıyor
+	char soyisim[30];//30 byte yer kaplıyor
+	float ortalama;	//6 byte.
+}Ogrenci;//veri tipi tanımını yaptım
+
+
+void bilgileriOku(Ogrenci *ogrPtr){
+	puts("Lutfen ogrencinin adini giriniz:");
+	scanf("%s",&ogrPtr->isim);
+	puts("Lutfen ogrencinin soyadini giriniz:");
+	scanf("%s",&ogrPtr->soyisim);
+	puts("Lutfen ogrencinin ortalamasini giriniz:");
+	scanf("%f",&ogrPtr->ortalama);	
+}
+void bilgileriYazdir(Ogrenci *ogrPtr){
+	
+	printf("Ogrenci Adi:%s\n",ogrPtr->isim);
+	printf("Ogrenci Soyadi:%s\n",ogrPtr->soyisim);
+	printf("Ogrenci Ortalamasi:%.2f\n",ogrPtr->ortalama);
+}
+void ogrenciBilgisiDegistir(Ogrenci *ogr,Ogrenci *ogr2){
+	Ogrenci geciciOgrenci;
+	
+	strcpy(geciciOgrenci.isim,ogr->isim);
+	strcpy(geciciOgrenci.soyisim,ogr->soyisim);
+	geciciOgrenci.ortalama=ogr->ortalama;
+	
+	
+	strcpy(ogr->isim,ogr2->isim);
+	strcpy(ogr->soyisim,ogr2->soyisim);
+	ogr->ortalama=ogr2->ortalama;
+	
+	strcpy(ogr2->isim,geciciOgrenci.isim);
+	strcpy(ogr2->soyisim,geciciOgrenci.soyisim);
+	ogr2->ortalama=geciciOgrenci.ortalama;
+
+}
+
+int main(int argc,char **argv){
+	
+	Ogrenci ogr;
+	Ogrenci ogr2;
+	bilgileriOku(&ogr);
+	bilgileriOku(&ogr2);
+	puts("Birinci Ogrenci Bilgileri\n");
+	bilgileriYazdir(&ogr);
+	puts("Ikinci Ogrenci Bilgileri\n");
+	bilgileriYazdir(&ogr2);
+	
+	ogrenciBilgisiDegistir(&ogr,&ogr2);
+	puts("Birinci Ogrenci Bilgileri\n");
+	bilgileriYazdir(&ogr);
+	puts("Ikinci Ogrenci Bilgileri\n");
+	bilgileriYazdir(&ogr2);
+
+}
+
+
+
+//ENUMERATİON KISMI
+typedef enum{
+	pzt=1,sali=2,crs=3,prs=4,cuma=5,cts=6,pzr=7
+}haftaninGunleri;
+
+typedef enum{
+	acemi=1,ortaseviye=2,ileriseviye=3,prof=4
+}oyunSeviyeleri;
+
+int main(){
+	haftaninGunleri gunler;//değişken
+	puts("Lutfen haftanin gunlerine karsilik 1-7 arasi bir sayi giriniz:");
+	scanf("%d",&gunler);
+	
+	switch(gunler){
+		case pzt:
+		case sali:
+		case crs:
+		case prs:
+		case cuma:
+			printf("Haftaici.");
+			break;
+		case cts:
+		case pzr:
+			printf("Haftasonu.");
+			break;
+		default:
+			printf("Hatali bir tuslama yaptiniz.");	
+	}
+	
+	oyunSeviyeleri seviyeler;//değişken oluşturdum
+	puts("Lutfen oyundaki level karsiligini giriniz:");
+	scanf("%d",&seviyeler);
+	if(seviyeler==acemi){//sayilardan kurtulmak icin enum yapıyoruz.
+		printf("Bu gorevi almaya yetkiniz yoktur.");
+	}
+	else if(seviyeler==ortaseviye || seviyeler==ileriseviye){
+		printf("Bu gorevi alabilirsiniz.");
+	}
+	else if(seviyeler==prof){
+		printf("Bu gorevi almak icin seviyeniz cok yuksek.");
+	}
+	else{
+		printf("Hatali level girisi");
+	}
+
+	return 0;	
+}
+*/
+
+
+
+
+//UNİON KISMI
+typedef union{
+	int intSayi;//4byte
+	float floatSayi;//4byte
+	double doubleSayi;//8byte/////MAKSİMUM BYTE SEVİYESİNE GÖRE BELİRLENDİ
+}Sayi;
+
+int main(){
+	
+	Sayi sayi;
+	sayi.intSayi=12;
+	printf("%d\n",sayi.intSayi);
+	printf("%f\n",sayi.floatSayi);
+	printf("%f\n",sayi.doubleSayi);
+	
+	sayi.floatSayi=3.85;
+	printf("\n");
+	printf("%d\n",sayi.intSayi);
+	printf("%f\n",sayi.floatSayi);
+	printf("%f\n",sayi.doubleSayi);
+	
+	sayi.doubleSayi=5.89;
+	printf("\n");
+	printf("%d\n",sayi.intSayi);
+	printf("%f\n",sayi.floatSayi);
+	printf("%f\n",sayi.doubleSayi);
+	
+	
+	
+
+	return 0;	
+}*/
+
+///////////////////////SAAT ÇEVİRME///////////////////////
+
+typedef struct{
+	int saat;
+	int dakika;
+	double saniye;//saniye+ondalikliKisim(salise)
+}saatBilgileri;
+
+
+saatBilgileri saatiAyir(double kullaniciSaati){
+	saatBilgileri donusturulenSaat;
+	
+	int tamSayiKismi=(int)kullaniciSaati;
+	double ondalikliKisim=kullaniciSaati-tamSayiKismi;
+	
+	donusturulenSaat.saat=tamSayiKismi/3600;//2 saat//7200 saniye
+	donusturulenSaat.dakika=(tamSayiKismi%3600)/60;// 2dakika//120 saniye
+	donusturulenSaat.saniye=(tamSayiKismi%3600)%60+ondalikliKisim;//30 saniye 
+
+	
+	
+	return donusturulenSaat;
+	
+}
+int main(void){
+	double kullaniciGirisi;
+	saatBilgileri kullaniciSaati;
+	
+	printf("Lutfen gireceginiz saat degerini saniye biciminde giriniz:");
+	scanf("%lf",&kullaniciGirisi);
+	
+	kullaniciSaati=saatiAyir(kullaniciGirisi);
+	//saat-dakika-saniye
+	printf("%d:%d:%.2lf",kullaniciSaati.saat,kullaniciSaati.dakika,kullaniciSaati.saniye);
+
+	
+
+	return 0;
+}
+
+
+
+//////////////////////////////URUN BİLGİSİ-EKLEME-OKUMA///////////////////////////////////
+typedef struct{
+	int ID;//4byte
+	double fiyatBilgisi;//8byte
+	char urunAdiBilgisi[20];//20byte	
+}urunBilgileri;
+
+void listeyeUrunEkle(urunBilgileri urunListesi[],int urunID,double urunFiyat,char *urunAdi){
+	int bosYer=0;//dongu icin
+	while(1){
+		if(urunListesi[bosYer].ID==0){//burasi bos buraya yazabilirim.
+			urunListesi[bosYer].ID=urunID;
+			urunListesi[bosYer].fiyatBilgisi=urunFiyat;
+			strcpy(urunListesi[bosYer].urunAdiBilgisi,urunAdi);
+			break;
+		}
+		bosYer++;
+	}	
+}
+int urunBul(int arananID,urunBilgileri urunListesi[],int urunSayisi){
+	int i;
+	for(i=0;i<urunSayisi;i++){
+		if(urunListesi[i].ID==arananID){
+			return i;//bulduk ve indeksi i
+		}
+	}
+	return -1;//bulamadik
+}
+void urunBilgisiGoster(int urunID,urunBilgileri urunListesi[],int urunSayisi){
+	
+	int urunIndex=urunBul(urunID,urunListesi,urunSayisi);//varsa index geldi yoksa -1 geldi.
+	if(urunIndex!=-1){
+		printf("Urun ID:%d\n",urunListesi[urunIndex].ID);
+		printf("Urun Fiyat:%.2lf\n",urunListesi[urunIndex].fiyatBilgisi);
+		printf("Urun Adi:%s",urunListesi[urunIndex].urunAdiBilgisi);
+	}
+	else{
+		printf("Aradiginiz urun kayitli degildir.");
+	}
+		
+}
+
+int main(void){
+	
+	int urunSayisi,ID,i;
+	urunBilgileri *urunlerListesi;
+	double urunFiyat;
+	char urunAdi[15];
+	
+	puts("Lutfen kac adet urun girmek istediginizi soyleyin.");
+	scanf("%d",&urunSayisi);
+	urunlerListesi=(urunBilgileri*)calloc(urunSayisi,sizeof(urunBilgileri));//dinamik şekilde ürün deposu oluşturduk
+	
+	for(i=0;i<urunSayisi;i++){
+		puts("Lutfen eklenecek urunun ID bilgisini giriniz:");
+		scanf("%d",&ID);
+		puts("Lutfen eklenecek urunun fiyat bilgisini giriniz:");
+		scanf("%lf",&urunFiyat);
+		puts("Lutfen eklenecek urunun adini giriniz:");
+		scanf("%s",&urunAdi);
+		listeyeUrunEkle(urunlerListesi,ID,urunFiyat,urunAdi);//urunleri ekledik
+	}
+	
+	printf("Lutfen gormek istediginiz urunun ID bilgisini giriniz:");
+	scanf("%d",&ID);
+	urunBilgisiGoster(ID,urunlerListesi,urunSayisi);
+
+	return 0;
+
+}
+
+
+
+
+
+/////////////////////ELEMENT SORGULAMA//////////////////////////
+typedef struct{
+	char sembol[3];//He
+	char tamAdi[20];//Helyum;
+	int atomNumarasi;	
+}element;
+
+void bilgileriGoster(element elementListesi[],char *sembol,int elementSayisi){
+	int i;
+	int bulunduMu=0;//bulunursa 1 yapacagiz.
+	for(i=0;i<elementSayisi;i++){
+		if(strcmp(elementListesi[i].sembol,sembol)==0){
+			printf("Sembol:%s\n",elementListesi[i].sembol);
+			printf("Tam Adi:%s\n",elementListesi[i].tamAdi);
+			printf("Atom Numarasi:%d\n",elementListesi[i].atomNumarasi);
+			bulunduMu=1;
+			break;
+		}	
+	}
+	if(!bulunduMu){
+		printf("Aradiginiz element listede bulunamadi\n");
+	}
+
+}
+
+
+int main(){
+	element elementListesi[]={{"He","Helyum",2},{"H","Hidrojen",1},{"B","Bor",5},{"F","Flor",9},{"N","Azot",7}};
+	char kullaniciArama[5];
+	
+	while(1){
+		printf("Lutfen yazdirmak istediginiz elementin sembolunu giriniz(Cikis icin Q tuslayiniz):");
+		scanf("%s",&kullaniciArama);
+		if(strcmp(kullaniciArama,"Q")==0){
+			break;
+		}
+		bilgileriGoster(elementListesi,kullaniciArama,5);	
+	}
+
+	return 0;
+}
+
+////////////////////////////NOKTALARDAN ALAN HESAPLAMA PROGRAM/////////////////////
+
+
+typedef struct{
+	int x;
+	int y;
+}Nokta;
+
+typedef struct{
+	Nokta koordinat[4];//N0-->x ve y alındı N1---->x ve y aldım N2--->x ve y aldım N3--->x ve y aldım
+}dikdortgen;
+
+float alanHesapla(dikdortgen kullaniciGirisi){
+	float x_kenar,y_kenar;
+	x_kenar=kullaniciGirisi.koordinat[1].x-kullaniciGirisi.koordinat[0].x;
+	y_kenar=kullaniciGirisi.koordinat[3].y-kullaniciGirisi.koordinat[0].y;
+	return x_kenar*y_kenar;
+	
+}
+
+
+
+int main(){
+		
+	dikdortgen hesaplanacakDortgen;//değişken oluşturdum.
+	int i;//dongu icin
+	for(i=0;i<4;i++){
+		printf("Lutfen  N%d koordinati icin sirasiyla x ve y degerlerini giriniz:",i);
+		scanf("%d%d",&hesaplanacakDortgen.koordinat[i].x,&hesaplanacakDortgen.koordinat[i].y);
+	}
+	
+	float sonuc=alanHesapla(hesaplanacakDortgen);
+	printf("Girdiginiz x-y degerlerine karsilik alan degeri:%.2f",sonuc);
+	
+
+	
+	return 0;	
+}

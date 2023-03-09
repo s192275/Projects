@@ -1,0 +1,332 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
+
+int main(){
+	
+	int dizi[20];//10 tane eleman*4=40byte.
+	printf("%d",sizeof(dizi));//kaç byte 
+	baslangic_adresi=malloc();//alan ayirmak icin
+	realloc();
+	calloc();
+	free();//alani geri bosaltmak icin.
+	
+	
+	int *ptr;//baslangic adresini tutabilmek icin.
+	ptr=(int *)malloc(sizeof(int));//baslangic adresini döner.
+	*ptr=15;
+	int *ptr2;
+	ptr2=(int *)malloc(sizeof(int));
+	*ptr2=350;
+	*ptr=*ptr2;//burada yaptigim deger esitlemesi
+	ptr=ptr2;//adres eşitlemesi PTR PTR2NİN GÖSTEDİGİ YERİ GÖSTERİR.
+	free(ptr2);
+	printf("%#X\n",ptr);
+	printf("%d\n",*ptr);
+	printf("%#X\n",ptr2);
+	printf("%d\n",*ptr2);
+	free(ptr);
+	free(ptr2);
+	
+	int elemanSayisi;
+	srand(time(NULL));
+	printf("Lutfen kac adet eleman gerektigini giriniz:");
+	scanf("%d",&elemanSayisi);
+	int *dizi=(int*)malloc(sizeof(int)*elemanSayisi);
+	int *ptr;//dizinin hafizadaki baslangic adresini
+	for(ptr=dizi;ptr<=dizi+elemanSayisi-1;ptr++){
+		(*ptr)=rand()%100;
+	}
+	for(ptr=dizi;ptr<=dizi+elemanSayisi-1;ptr++){
+		printf("%d ",*ptr);
+	}
+	printf("\nTersten hali:\n");
+	for(ptr=dizi+elemanSayisi-1;ptr>=dizi;ptr--){
+		printf("%d ",*ptr);
+	}
+	free(dizi);*/
+	/
+	for(i=0;i<elemanSayisi;i++){
+		dizi[i]=i;
+	}
+	for(i=0;i<elemanSayisi;i++){
+		printf("%d\n",dizi[i]);
+	}
+	
+	
+	//pointerTopointer
+	
+	int kullaniciSayisi=123;
+	int *ptr=&kullaniciSayisi;
+	int **ptr2ptr=&ptr;
+	
+	printf("%d\n",kullaniciSayisi);
+	printf("%d\n",*ptr);
+	printf("%d\n",**ptr2ptr);
+	
+	
+				ptr2ptr  ----->>>           ptr    ---->>>        kullaniciSayisi
+																	
+	DEĞERLER:   #A12345				            #A1234			    			123
+	ADRES:		#A123456						#A12345							#A1234
+				*#A12345=#A1234						    	*A1234=123
+				*#A1234=123
+	
+	
+	int **ikiBoyutluDizi;
+	int satirSayisi,sutunSayisi;
+	int i,j;
+	srand(time(NULL));
+	printf("Satir sayisi:");
+	scanf("%d",&satirSayisi);
+	printf("Sutun sayisi:");
+	scanf("%d",&sutunSayisi);
+	
+	
+	//DİNAMİK ŞEKİLDE DİZİ OLUŞTURMA.
+	ikiBoyutluDizi=(int **)malloc(sizeof(int *)* satirSayisi);
+	for(i=0;i<satirSayisi;i++){
+		ikiBoyutluDizi[i]=(int *)malloc(sizeof(int)*sutunSayisi);
+	}
+	
+
+	//DEĞER ATAMA.
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			ikiBoyutluDizi[i][j]=rand()%100;
+		}
+	}
+	//YAZDIRMA KISMI
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			printf("%d ",ikiBoyutluDizi[i][j]);
+		}
+		printf("\n");
+	}
+	//GERİ İADE KISMI.
+	for(i=0;i<satirSayisi;i++){
+		free(ikiBoyutluDizi[i]);
+	}
+	free(ikiBoyutluDizi);
+	
+	
+	
+	//calloc=clear and allocation
+	//realloc=reallocation
+	
+	
+	int elemanSayisi;
+	puts("Lutfen eleman sayisini giriniz:");
+	scanf("%d",&elemanSayisi);
+	int *dizi=(int*)calloc(elemanSayisi,sizeof(int));//baslangic adresi.
+	int *ptr;//islemlerin hepsini ptr üzerinden yapıcam
+	for(ptr=dizi;ptr<dizi+elemanSayisi;ptr++){
+		*ptr=10;
+		printf("%d ",*ptr);
+	}
+	
+	puts("Eleman sayisini kaca yukseltmek istersiniz:");
+	scanf("%d",&elemanSayisi);
+	dizi=realloc(dizi,elemanSayisi*sizeof(int));	
+	for(ptr=dizi;ptr<dizi+elemanSayisi;ptr++){
+		*ptr=20;
+		printf("%d ",*ptr);
+	}
+	free(dizi);//bitti isim al sen kullan.
+
+	return 0;
+}
+
+
+
+//DİZİ-SIRALAMA&ARAMA İŞLEMLERİYLE İLGİLİ KODLAR
+void diziyiDoldur(int *dizi,int elemanSayisi){
+	srand(time(NULL));
+	int *ptr;//BASLANGİC ADRESİNİ TUTACAK VE TÜM İŞLEMLER BUNUN ÜZERİNDEN GERÇEKLEŞECEK.
+	for(ptr=dizi;ptr<dizi+elemanSayisi;ptr++){
+		*ptr=rand()%100;
+	}
+}
+
+void diziyiYazdir(int *dizi,int elemanSayisi){
+	int *ptr;//BASLANGİC ADRESİNİ TUTACAK VE TÜM İŞLEMLER BUNUN ÜZERİNDEN GERÇEKLEŞECEK.
+	for(ptr=dizi;ptr<dizi+elemanSayisi;ptr++){
+		printf("%d ",*ptr);
+	}
+	printf("\n");
+}
+void secmeliSirala(int *dizi,int elemanSayisi){
+	
+	int *ptr,*ptr2,*enKucukSayi;
+	for(ptr=dizi;ptr<dizi+elemanSayisi;ptr++){
+		enKucukSayi=dizi+elemanSayisi-1;
+		for(ptr2=ptr;ptr2<dizi+elemanSayisi;ptr2++){
+			if(*ptr2<*enKucukSayi){
+				enKucukSayi=ptr2;
+			}
+		}
+		int gecici=*enKucukSayi;
+		*enKucukSayi=*ptr;
+		*ptr=gecici;
+	}
+}
+void ikiliArama(int *dizi,int elemanSayisi,int arananSayi){
+	int *ptrSol=dizi;//baslangicini
+	int *ptrSag=dizi+elemanSayisi-1;//sonunu
+	int *ptrOrtanca;
+	int bulunduMu=0;
+	while(ptrSol<=ptrSag){
+		ptrOrtanca=ptrSol+(ptrSag-ptrSol)/2;//ortanca değeri, kaç byte ilerde olması gerektiğine göre.
+		if(*ptrOrtanca==arananSayi){
+			bulunduMu=1;
+			break;
+		}
+		else if(*ptrOrtanca>arananSayi){
+			ptrSag=ptrOrtanca-1;
+		}
+		else{
+			ptrSol=ptrOrtanca+1;
+		}
+	}
+	if(bulunduMu){
+		printf("%d sayisi bulundu",arananSayi);
+	}
+	else{
+		printf("%d sayisi bulunamadi",arananSayi);
+	}
+}
+
+int main(){
+
+	
+	int elemanSayisi;
+	int arananDeger;
+	puts("Lutfen dizinin eleman sayisini giriniz:");
+	scanf("%d",&elemanSayisi);
+	int *dizi=(int*)malloc(sizeof(int)*elemanSayisi);//dinamik bir array oluşturduk.
+	diziyiDoldur(dizi,elemanSayisi);
+	diziyiYazdir(dizi,elemanSayisi);
+	secmeliSirala(dizi,elemanSayisi);//siraladik
+	diziyiYazdir(dizi,elemanSayisi);
+	printf("Lutfen aramak istediginiz degeri giriniz:");
+	scanf("%d",&arananDeger);
+	ikiliArama(dizi,elemanSayisi,arananDeger);//deger var mi yok mu kontrol.
+	return 0;
+	
+}
+
+
+
+
+//DİZİLERLE İLGİLİ İŞLEMLER-MAİN KISMIYLA BİRLİKTE
+void diziyiDoldur(int **ikiBoyutluDizi,int satirSayisi,int sutunSayisi){
+	int i,j;
+	srand(time(NULL));
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			ikiBoyutluDizi[i][j]=rand()%5;
+		}
+	}
+}
+void diziyiYazdir(int **ikiBoyutluDizi,int satirSayisi,int sutunSayisi){
+	int i,j;
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			printf("%d ",ikiBoyutluDizi[i][j]);
+		}
+		printf("\n");
+	}
+	
+}
+void matrisToplami(int **ilkMatris,int **ikinciMatris,int **sonucMatrisi,int satirSayisi,int sutunSayisi){
+	int i,j;
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			sonucMatrisi[i][j]=ilkMatris[i][j]+ikinciMatris[i][j];
+		}		
+	}	
+}
+void birimMatrisOlusturma(int satirSayisi,int sutunSayisi){
+	int **birimMatris;
+	int i,j;
+	birimMatris=(int**)calloc(satirSayisi,sizeof(int*));//DİNAMİK DİZİ OLUSTURMA
+	for(i=0;i<satirSayisi;i++){
+		birimMatris[i]=(int*)calloc(sutunSayisi,sizeof(int));
+	}
+	puts("Birim Matris Olmadan Onceki Hali:");
+	diziyiYazdir(birimMatris,satirSayisi,sutunSayisi);
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			if(i==j){
+				birimMatris[i][j]=1;
+			}
+		}
+	}
+	puts("Birim Matris Olusturulmus Hali:");
+	diziyiYazdir(birimMatris,satirSayisi,sutunSayisi);
+	for(i=0;i<satirSayisi;i++){
+		free(birimMatris[i]);//serbest bırakma
+	}
+	free(birimMatris);	
+}
+void transpozYazdirma(int **ikiBoyutluDizi,int satirSayisi,int sutunSayisi){
+	int i,j;
+	for(i=0;i<satirSayisi;i++){
+		for(j=0;j<sutunSayisi;j++){
+			printf("%d ",ikiBoyutluDizi[j][i]);
+		}
+		printf("\n");
+	}
+
+}
+
+int main(int argc,char **argv){
+	
+	//1.Matris Toplama	
+	//2.Birim Matris
+	//3.Transpoz Yazdirma
+	int satirSayisi,sutunSayisi;
+	int **ilkMatris,**ikinciMatris,**sonucMatrisi;
+	int i;
+	puts("Lutfen satir ve sutun sayisini sirayla giriniz:");
+	scanf("%d%d",&satirSayisi,&sutunSayisi);
+	birimMatrisOlusturma(satirSayisi,sutunSayisi);//BİRİM MATRİS
+	
+	ilkMatris=(int**)malloc(sizeof(int*)*satirSayisi);
+	ikinciMatris=(int**)malloc(sizeof(int*)*satirSayisi);
+	sonucMatrisi=(int**)calloc(satirSayisi,sizeof(int*));//hem dinamik oldu, hem 0 atandı.
+	
+	for(i=0;i<satirSayisi;i++){
+		ilkMatris[i]=(int*)malloc(sizeof(int)*sutunSayisi);
+		ikinciMatris[i]=(int*)malloc(sizeof(int)*sutunSayisi);
+		sonucMatrisi[i]=(int*)calloc(sutunSayisi,sizeof(int));	
+	}
+	diziyiDoldur(ilkMatris,satirSayisi,sutunSayisi);
+	diziyiDoldur(ikinciMatris,satirSayisi,sutunSayisi);
+	puts("Ilk Matris:");
+	diziyiYazdir(ilkMatris,satirSayisi,sutunSayisi);
+	puts("Ikinci Matris:");
+	diziyiYazdir(ikinciMatris,satirSayisi,sutunSayisi);
+	puts("Toplam Matrisinin toplamadan onceki hali:");
+	diziyiYazdir(sonucMatrisi,satirSayisi,sutunSayisi);
+	matrisToplami(ilkMatris,ikinciMatris,sonucMatrisi,satirSayisi,sutunSayisi);
+	puts("Toplam Matrisinin toplamadan sonraki hali:");
+	diziyiYazdir(sonucMatrisi,satirSayisi,sutunSayisi);
+	puts("Toplam Matrisinin Transpoz Hali:");
+	transpozYazdirma(sonucMatrisi,satirSayisi,sutunSayisi);
+		
+	for(i=0;i<satirSayisi;i++){//KULLANDIGIMIZ ALANI GERİ VERDİK
+		free(ilkMatris[i]);
+		free(ikinciMatris[i]);
+		free(sonucMatrisi[i]);
+	}	
+	free(ilkMatris);//free yaptik
+	free(ikinciMatris);
+	free(sonucMatrisi);
+
+
+	return 0;
+}
+

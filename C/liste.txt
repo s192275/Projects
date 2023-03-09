@@ -1,0 +1,7 @@
+
+Ali         Basar           180            103                 
+Ahmet       Tokatcı         163             80                
+Melih        Unlu           170             92               
+Ali          Oguncu         180             105                 
+Abuzer       Eskici         190             120
+Abuzer       Tavukcu        180             105            

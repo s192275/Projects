@@ -1,0 +1,238 @@
+//ÖDEV SORULARI
+
+/*
+1.Soru-> Bir adet kompleks sayi yapısı oluşturunuz, içinde gerçek ve sanal kısmı olacak. Oluşturduğunuz bu yapıdan 2 adet değişken oluşturup bunların
+toplamını hesaplayacak bir fonksiyon yazıp main kısımda sonucu bastırınız.
+	(3+4i)+(-8+12i)=-5+16i
+
+
+2.Soru->Derste de benzerini yaptığımız gibi bir adet saat yapısı oluşturunuz, içinde saat dakika saniye değişkeleri bulunacak. Oluşturduğunuz bu
+yapıdan 2 adet değişken oluşturup kullanıcıdan değer okuması yapınız. En son girilen 2 saatin farkını hesaplayacak bir program yazıp sonucu 
+bastırınız.
+				16:53:81
+				13:21:32
+
+
+3.Soru->Bir adet kitaplık projesi yapmanızı istiyorum,bir adet kitapBilgileri yapısı oluşturunuz, yapınız içinde kitapAdi,kitapYazari,sayfaSayisi,
+yayinEvi gibi bilgiler içersin. Main kısımda kullanıcıdan alacağınız kitap sayısına göre bir dinamik array oluşturup kitapları orada saklayın.
+Kitap Ekle, Kitap Ara, Tum Kitapları goruntule fonksiyonları yazınız ve bunları main kısımda deneyiniz.
+
+
+4.Soru->3.Soruda yaptığınız kitaplık projesindeki kitap ekle fonksiyonuna enum yapısını kullanarak bir kısıtlama getirin.2 adet yetki olacak.
+Eğer yetkiniz ogrenci ise kitap ekleme yapamayacaksınız, eğer ki yetkiniz calisan ise kitap ekleyebilirsiniz.
+
+
+*/
+
+//1.SORU
+/*
+
+typedef struct{
+	float gercekKisim;//gerçek sayı 
+	float sanalKisim;//i li olan kısım 
+}kompleksSayi;
+
+void sayiTopla(kompleksSayi sayi1,kompleksSayi sayi2,kompleksSayi *sonuc){
+	sonuc->gercekKisim=sayi1.gercekKisim+sayi2.gercekKisim;
+	sonuc->sanalKisim=sayi1.sanalKisim+sayi2.sanalKisim;	
+}
+
+
+int main(void){
+	
+	kompleksSayi sayi1,sayi2,sonuc;
+	
+	printf("Lutfen ilk sayinin sirasiyla gercek ve sanal kismini giriniz:");
+	scanf("%f%f",&sayi1.gercekKisim,&sayi1.sanalKisim);
+	
+	printf("Lutfen ikinci sayinin sirasiyla gercek ve sanal kismini giriniz:");
+	scanf("%f%f",&sayi2.gercekKisim,&sayi2.sanalKisim);
+	
+	sayiTopla(sayi1,sayi2,&sonuc);
+	printf("Sonuc:%.1f+%.1fi",sonuc.gercekKisim,sonuc.sanalKisim);
+	
+	
+	
+
+	return 0;
+}
+
+*/
+
+//2.SORU
+/*
+typedef struct{
+	int saat;
+	int dakika;
+	double saniye;
+}saatBilgileri;
+
+saatBilgileri farkiBul(saatBilgileri ilkSaat,saatBilgileri ikinciSaat){
+	saatBilgileri saatFarki;//sonuc bunda tutulacak.
+	
+	double ilkSaatDouble=ilkSaat.saat*3600+ilkSaat.dakika*60+ilkSaat.saniye;
+	double ikinciSaatDouble=ikinciSaat.saat*3600+ikinciSaat.dakika*60+ikinciSaat.saniye;
+	
+	if(ilkSaatDouble>=ikinciSaatDouble){
+		if(ilkSaat.saniye<ikinciSaat.saniye){
+			ilkSaat.saniye+=60;
+			ilkSaat.dakika-=1;
+		}
+		if(ilkSaat.dakika<ikinciSaat.dakika){
+			ilkSaat.dakika+=60;
+			ilkSaat.saat-=1;
+		}
+		saatFarki.saat=ilkSaat.saat-ikinciSaat.saat;
+		saatFarki.dakika=ilkSaat.dakika-ikinciSaat.dakika;
+		saatFarki.saniye=ilkSaat.saniye-ikinciSaat.saniye;
+	}
+	else{
+		if(ilkSaat.saniye>ikinciSaat.saniye){
+			ikinciSaat.saniye+=60;
+			ikinciSaat.dakika-=1;
+		}
+		if(ilkSaat.dakika>ikinciSaat.dakika){
+			ikinciSaat.dakika+=60;
+			ikinciSaat.saat-=1;
+		}
+		saatFarki.saat=ikinciSaat.saat-ilkSaat.saat;
+		saatFarki.dakika=ikinciSaat.dakika-ilkSaat.dakika;
+		saatFarki.saniye=ikinciSaat.saniye-ilkSaat.saniye;
+
+	}
+	return saatFarki;
+	
+}
+
+
+int main(){
+	saatBilgileri kullaniciSaati,kullaniciSaati2;
+	saatBilgileri saatFarki;
+	
+	printf("Lutfen ilk saat bilgisini saat:dakika:saniye seklinde giriniz:");
+	scanf("%d:%d:%lf",&kullaniciSaati.saat,&kullaniciSaati.dakika,&kullaniciSaati.saniye);
+	
+	printf("Lutfen ikinci saat bilgisini saat:dakika:saniye seklinde giriniz:");
+	scanf("%d:%d:%lf",&kullaniciSaati2.saat,&kullaniciSaati2.dakika,&kullaniciSaati2.saniye);
+	
+	saatFarki=farkiBul(kullaniciSaati,kullaniciSaati2);
+	printf("%d:%d:%.2lf",saatFarki.saat,saatFarki.dakika,saatFarki.saniye);
+		
+	return 0;
+	
+	
+}
+
+*/
+
+
+//3.SORU
+/*
+typedef struct{
+	char kitapYazar[20];
+	char kitapAdi[20];
+	char yayinEvi[20];
+	int sayfaSayisi;
+}kitapBilgileri;
+
+typedef enum{
+	ogrenci=1,calisan=2
+	
+}yetkiSeviyeleri;
+
+void kitapEkle(kitapBilgileri *kitapDizisi,int kitapSayisi,yetkiSeviyeleri yetki){
+	int i=0;//dongu icin.
+	
+	if(yetki==ogrenci){
+		puts("Uzgunum.Kitap Ekleme yetkisine sahip degilsiniz.Kitap Eklemesi yapamazsiniz.");
+		return ;
+	}
+	
+	
+	while(1){
+		if(i>kitapSayisi){//kitaplik full
+			puts("Uzgunum. Daha fazla kitap eklenemez, kitaplik tamamen dolu\n");
+			return;
+		}
+		if(kitapDizisi[i].sayfaSayisi==0){//kitapligin o indeksi boş.
+			printf("Kitap Ismini Giriniz:");
+			scanf("%s",&kitapDizisi[i].kitapAdi);
+			printf("Kitap Yazarini Giriniz:");
+			scanf("%s",&kitapDizisi[i].kitapYazar);
+			printf("Kitap YayinEvi Bilgisini Giriniz:");
+			scanf("%s",&kitapDizisi[i].yayinEvi);
+			printf("Kitap Sayfa Sayisi Bilgisini Giriniz:");
+			scanf("%d",&kitapDizisi[i].sayfaSayisi);
+			return;
+		}
+		i++;//bir sonraki indeksten boş yer aramaya devam ediyoruz.
+	}
+}
+void kitapGoruntule(kitapBilgileri *kitapDizisi,int kitapSayisi){
+	int i;
+	for(i=0;i<kitapSayisi;i++){
+		printf("Kitap Adi:%s\n",kitapDizisi[i].kitapAdi);
+		printf("Kitap Yazari:%s\n",kitapDizisi[i].kitapYazar);
+		printf("Kitap Yayinevi:%s\n",kitapDizisi[i].yayinEvi);
+		printf("Kitap Sayfa Sayisi:%d\n",kitapDizisi[i].sayfaSayisi);
+		printf("-----------------------------------------------\n");
+	}
+}
+int kitapAra(kitapBilgileri *kitapDizisi,char *kitapAdi,int kitapSayisi){
+	int i;
+	for(i=0;i<kitapSayisi;i++){
+		if(strcmp(kitapDizisi[i].kitapAdi,kitapAdi)==0){
+			return i;//kitabı buldugum indeks değerini dönüyorum.
+		}
+	}
+	return -1;
+}
+*/
+
+//4.SORU
+/*
+int main(void){
+	int kitapSayisi;
+	kitapBilgileri *kitaplik;//dinamik şekilde oluşturulan kitapBilgileri dizim.
+	char kullaniciIstegi,kitapAdi[20];
+	yetkiSeviyeleri kullaniciYetki;
+	
+	
+	puts("Lutfen kac adet kitap eklemek istediginizi giriniz:");
+	scanf("%d",&kitapSayisi);
+	
+	kitaplik=(kitapBilgileri*)calloc(kitapSayisi,sizeof(kitapBilgileri));
+	
+	do{
+		fflush(stdin);
+		puts("Kitap Eklemek istiyorsaniz 'E', tum kitaplari goruntulemek istiyorsaniz 'G', arama yapmak istiyorsaniz 'A', cikis yapmak istiyorsaniz 'Q' tuslayiniz.");
+		kullaniciIstegi=getchar();
+		switch(kullaniciIstegi){
+			case 'E':
+				puts("Lutfen ogrenciyseniz 1, calisansaniz 2 tuslayiniz.");
+				scanf("%d",&kullaniciYetki);
+				kitapEkle(kitaplik,kitapSayisi,kullaniciYetki);
+				break;
+			case 'A':
+				puts("Lutfen aramak istediginiz kitabin adini giriniz:");
+				scanf("%s",&kitapAdi);
+				int kitap_Index=kitapAra(kitaplik,kitapAdi,kitapSayisi);
+				if(kitap_Index==-1){
+					printf("Aradiginiz kitap kutuphanede bulunamadi.");
+				}
+				else{
+					printf("Aradiginiz kitap kitapligimizin %c-%d kisminda bulundu.\n",kitapAdi[0],kitap_Index+1);
+				}
+				break;
+			case 'G':
+				kitapGoruntule(kitaplik,kitapSayisi);
+				break;
+			case 'Q':
+				puts("Cikis yapiliyor...Tesekkur Ederiz\n");
+				break;
+			default:
+				puts("Yanlis bir tuslama yaptiniz.");
+				break;
+		}		
+	}while(kullaniciIstegi!='Q');
+	*/
